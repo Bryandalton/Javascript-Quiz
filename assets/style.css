@@ -63,7 +63,7 @@ ul {
     max-width: 80%;
 }
 
-.alternatives {
+.btn {
     padding: 10;
     margin: 0;
     background-color: darkmagenta;
@@ -72,7 +72,7 @@ ul {
     font-size: 2rem;
 }
 
-.alternatives:hover {
+.btn:hover {
     box-shadow: inset 0 0 10px 2px white;
 }
 
@@ -85,6 +85,14 @@ ul {
     font-weight: bolder;
     font-family: monospace;
     font-size: 1.3rem;
+}
+
+.btn.correct {
+    background-color: var(--correct);
+}
+
+.btn.incorrect {
+    background-color: var(--incorrect);
 }
 
 .hide {

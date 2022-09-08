@@ -1,25 +1,32 @@
-let question = {
-    title: 'Question 1',
-    alternative: ['op1', 'op2', 'op3', 'op4'],
-    correctAnswer: 2 //op3
-};
+
 let start = document.getElementById("startbtn")
 var gameStarted = false;
-// var timer;
 var hasWon = false;
 var timerEl = document.getElementById("timercount");
-var hidden = document.querySelectorAll(".hide")
+var questionCard = document.getElementById('card');
+var answerBtn = document.getElementById('answer-buttons')
+var titleEl = document.getElementById('title')
 
+let shuffledQuestions, currentQuestionIndex;
 
 function startGame() {
-    hidden.classList.remove('hide');
+    questionCard.classList.remove('hide');
+    document.getElementById('timer').classList.remove('hide');
     if(gameStarted){
         return;
     }
+    shuffledQuestions = questions.sort(function () {
+        Math.random() - .5
+    })
     var timerCount = 60;
     startTime(timerCount);
     gameStarted = true;
+    setNextQuestion();
 };
+
+function setNextQuestion() {
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
+}
 
 function startTime(timerCount) {
     timer = setInterval(function(){
@@ -58,20 +65,62 @@ console.log('you lose!')
 gameStarted = false;
 }
 
-
-function showQuestion(question) {
-//select dom element
-var titleDiv = document.getElementById("title");
-//modify it
-titleDiv.textContent = question.title;
-let alts = document.querySelectorAll('.alternatives')
-alts.forEach(function(element, index) {
-element.textContent = question.alternative[index]
-});
-console.log(alts)
+function showQuestion() {
+    titleEl.innerText = questions.question;
+    question.answer.forEach(answer => {
+        var button = document.createElement('button')
+        button.innerText = answer.text
+    } )
 }
 
-showQuestion(question)
 
 start.addEventListener('click', startGame)
 
+const questions = [
+    {
+      question: 'Which is a primative date value?',
+      answers: [
+        { text: 'Boolean', correct: false },
+         { text: 'Number', correct: false },
+         { text: 'String', correct: false },
+         { text: 'all the above.', correct: true },
+
+      ]
+    },
+    {
+      question: 'What is a boolean?',
+      answers: [
+            { text: 'a number in quotations', correct: false },
+            { text: 'a series of strings', correct: false },
+            { text: 'a value of true/false', correct: true },
+            { text: 'a function', correct: false }
+      ]
+    },
+    {
+      question: 'A strings value must be enclosed within?',
+      answers: [
+         { text: 'brackets', correct: false },
+         { text: 'quotes', correct: true },
+         { text: 'curly brackets', correct: false },
+         { text: 'none of the above', correct: false }
+      ]
+    },
+    {
+      question: 'is "undefined" a primative date value?',
+      answers: [
+            { text: 'false', correct: false },
+            { text: 'true', correct: true }
+      ]
+    },
+    {
+        question: 'Arrays in Javascript are used to...',
+        answers: [
+            { text: 'hold more than one value', correct: true},
+            { text: 'store stings', correct: false},
+            { text: 'provide storage in the browser', correct: false},
+            { text: 'keep numbers seperate', correct: false}
+        ]
+    }
+  ];
+
+  console.log(questions)
