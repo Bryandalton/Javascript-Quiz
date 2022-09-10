@@ -119,23 +119,28 @@ function winGame(){
 
 function loseGame(){
 hasWon = false;
-questionCard.textContent = 'GAME OVER!'
-var inputField = document.createElement('input')
-var submitBtn = document.createElement('button')
-var userName = document.createElement('li')
-userName.setAttribute('id', 'userInput')
-inputField.setAttribute('id', 'nameInput')
-submitBtn.textContent = 'Submit my score.'
-submitBtn.setAttribute('class', 'scoreBtn')
-questionCard.appendChild(inputField)
-questionCard.appendChild(submitBtn)
-submitBtn.addEventListener('click', function () {
-    scoreList.appendChild(userName)
-    document.getElementById('userInput') = document.getElementById('nameInput').nodeValue
-    console.log('click heard')})
-console.log('you lose!')
+questionCard.textContent = 'GAME OVER!';
+setScore();
+console.log('you lose!');
 gameStarted = false;
-}
+};
+
+function setScore() {
+    var inputField = document.createElement('input')
+    var submitBtn = document.createElement('button')
+    var userName = document.createElement('li')
+    
+    userName.setAttribute('id', 'userInput')
+    inputField.setAttribute('id', 'nameInput')
+    submitBtn.textContent = 'Submit my score.'
+    submitBtn.setAttribute('class', 'scoreBtn')
+    questionCard.appendChild(inputField)
+    questionCard.appendChild(submitBtn)
+    submitBtn.addEventListener('click', function () {
+        scoreList.appendChild(userName)
+        userName.textContent = inputField.value;
+    });
+};  
 
 function showQuestion(currentQuestion) {
     titleEl.innerText = currentQuestion.question;
