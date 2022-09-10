@@ -138,7 +138,7 @@ function setScore() {
     questionCard.appendChild(submitBtn)
     submitBtn.addEventListener('click', function () {
         scoreList.appendChild(userName)
-        userName.textContent = inputField.value;
+        userName.textContent = [inputField.value, totalScore];
     });
 };  
 
