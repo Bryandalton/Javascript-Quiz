@@ -147,12 +147,6 @@ function showQuestion(currentQuestion) {
     for (let i = 0; i < 4; i++) {
         answerBtn[i].textContent = currentQuestion.answers[i]['text'];
     }
-    // currentQuestion.answers.forEach(answer => {
-    //     console.log(answer.text)
-    //     answerBtn.innerText = answer.text;
-    //     //why are buttons not displaying correct text
-    // // console.log(currentQuestion.answer, 'answers')
-    // } )
 }
 
 //starts game on click of start button
