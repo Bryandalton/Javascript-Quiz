@@ -104,12 +104,22 @@ color: blue;
 cursor: pointer;
 }
 
-.btn.correct {
+.correct {
     background-color: var(--correct);
+    color: white;
+    border-radius: 5px;
+    font-size: 2rem;
+    padding: 10;
+    margin: 0;
 }
 
-.btn.incorrect {
+.incorrect {
     background-color: var(--incorrect);
+    color: white;
+    border-radius: 5px;
+    font-size: 2rem;
+    padding: 10;
+    margin: 0;
 }
 
 .scoreBtn {

@@ -51,14 +51,14 @@ var gameStarted = false;
 var hasWon = false;
 var timerEl = document.getElementById("timercount");
 var questionCard = document.getElementById('card');
-var answerBtn = document.querySelectorAll('.answer-buttons') //is this the right selector?
+var answerBtn = document.querySelectorAll('.answer-buttons')
 var titleEl = document.getElementById('title')
 let shuffledQuestions, currentQuestionIndex = 0;
 var scoresToggle = document.getElementById('scores-toggle')
 var highScores = document.getElementById('highscore')
 var scoreList = document.getElementById('scorelist')
 var totalScore = 100;
-var timerCount = 2;
+var timerCount = 60;
 
 
 function startGame() {
@@ -104,9 +104,8 @@ function startTime(timerCount) {
     }, 1000);
 };
 
-function selectAnswer() {
-//add functionality to choose answer
-}
+// answerBtn.addEventListener('click', testFunction)
+
 
 function winGame(){
     var hasWon = true;
@@ -149,7 +148,7 @@ function showQuestion(currentQuestion) {
     }
 }
 
-//starts game on click of start button
+//starts game on click of 'start' button
 start.addEventListener('click', startGame)
 
 //shows highscores
@@ -160,4 +159,18 @@ scoresToggle.addEventListener('click', () => {
 //todo:
 //add input for user to log name/score append li to ol #scorelist
 //add local storage for name/score
+// console.log(questions.answers.correct)
+
+function testFunction () {
+    console.log('Test success!')
+}
+
 console.log(answerBtn)
+
+// answerBtn.addEventListener('click', testFunction)
+
+for (let i = 0; i < answerBtn.length; i++) {
+answerBtn[i].addEventListener('click', console.log('clicked'))
+}
+
+// answerBtn[0].addEventListener('click', console.log('Clicked!'))
