@@ -144,7 +144,7 @@ function setScore() {
         localStorage.setItem('Name' , inputField.value)
         if (currentHighScore < totalScore) {
             localStorage.setItem('score', totalScore)
-        }
+        } //not overwriting scores or storing multipul names
     });
 };  
 //displays questions and answer buttons

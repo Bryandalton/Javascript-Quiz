@@ -16,6 +16,8 @@ User is then presented with the option to 'submit your score' and a blank text b
 
 ![quiz-screenshot](./assets/javascript-quiz-screenshot.PNG)
 
+link: https://bryandalton.github.io/Javascript-Quiz/
+
 ## Credits
 -Bryan Dalton 
 
