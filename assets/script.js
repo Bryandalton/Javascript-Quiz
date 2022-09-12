@@ -73,7 +73,8 @@ var timerEl = document.getElementById("timercount");
 var questionCard = document.getElementById('card');
 var answerBtn = document.querySelectorAll('.answer-buttons');
 var titleEl = document.getElementById('title')
-let shuffledQuestions, currentQuestionIndex = 0;
+let shuffledQuestions; 
+var currentQuestionIndex = 0;
 var scoresToggle = document.getElementById('scores-toggle')
 var highScores = document.getElementById('highscore')
 var scoreList = document.getElementById('scorelist')
@@ -96,49 +97,32 @@ function startGame() {
     setNextQuestion();
 };
 
-
 function setNextQuestion() {
     // console.log(shuffledQuestions, 'set next question function')
-
-    showQuestion(shuffledQuestions[currentQuestionIndex]);
-    //to do:
-    //incriment currentQuestionIndex
-    //add conditional statement once currentQuestionIndex is > questions.length stop quiz
+    if (currentQuestionIndex < questions.length) {
+      showQuestion(shuffledQuestions[currentQuestionIndex]);
+    } else if (currentQuestionIndex == 4) {
+        setScore()
+    }
 }
 
 function startTime(timerCount) {
     timer = setInterval(function(){
         timerCount--;
         timerEl.textContent = timerCount;
-        if (timerCount >= 0){
-            if (hasWon && timerCount > 0) {
-                clearInterval(timer);
-                winGame();
-            } else if (timerCount == 0) {
-                clearInterval(timer)
-                loseGame();
-            }
+        if (timerCount === 0 || currentQuestionIndex == questions.length){
+            clearInterval(timer)
+            endGame()
         }
 
 
     }, 1000);
 };
 
-
-function winGame(){
-    var hasWon = true;
-    if (hasWon){
-        console.log("You win!")
-        gameStarted = false;
-    }
-    
-};
-
-function loseGame(){
-hasWon = false;
-questionCard.textContent = 'GAME OVER!';
+function endGame(){
+questionCard.textContent = 'QUIZ OVER!';
 setScore();
-console.log('you lose!');
+console.log('Game Over!')
 gameStarted = false;
 };
 
@@ -155,7 +139,14 @@ function setScore() {
     questionCard.appendChild(submitBtn)
     submitBtn.addEventListener('click', function () {
         scoreList.appendChild(userName)
-        userName.textContent = [inputField.value, totalScore];
+        userName.textContent = [localStorage.getItem('Name') +' '+ localStorage.getItem('score')];
+        var currentHighScore = localStorage.getItem('score')
+        localStorage.setItem('Name' , inputField.value)
+        if (currentHighScore < totalScore) {
+            localStorage.setItem('score', totalScore)
+        }
+
+        // localStorage.getItem('name')
     });
 };  
 
@@ -166,23 +157,26 @@ function showQuestion(currentQuestion) {
     }
 }
 
-function selectAnswer (currentQuestion) {
+function selectAnswer () {
     for(let i = 0; i < answerBtn.length; i++)
     {
-        answerBtn[i].addEventListener('click', isCorrect)
+      answerBtn[i].addEventListener('click', () => isCorrect(i))
     }
 }
 
 selectAnswer()
-function isCorrect (currentQuestion) {
-for (i = 0; i < questions.length; i++) {
-    questions[i].answers.forEach()
-    }
-// }
-// if (currentQuestion.answers[i].correct) {
-//     answerBtn.classList.remove('btn')
-//     answerBtn.classList.add()
-// }
+
+function isCorrect (btnIndex) {
+  let currentQuestion = shuffledQuestions[currentQuestionIndex];
+
+  let correctClicked = currentQuestion.answers[btnIndex].correct;
+  console.log('correct answer clicked?', correctClicked);
+  currentQuestionIndex++;
+  setTimeout(() => setNextQuestion(), 300)
+  if (!correctClicked) {
+    timerCount -= 12; //not working
+    totalScore -= 20;
+  }
 };
 // console.log(i)
 
