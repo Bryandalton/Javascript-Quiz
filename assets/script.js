@@ -66,6 +66,7 @@ const questions = [
     }
   ];
 
+var savedScores = JSON.parse(localStorage.getItem('scores')) || [];
 let start = document.getElementById("startbtn");
 var gameStarted = false;
 var hasWon = false;
@@ -80,6 +81,8 @@ var highScores = document.getElementById('highscore')
 var scoreList = document.getElementById('scorelist')
 var totalScore = 100;
 var timerCount = 60;
+//Loads scores at start up incase user clicks highscores link.
+displayScores();
 
 //starts game and calls timer
 function startGame() {
@@ -93,7 +96,7 @@ function startGame() {
         Math.random() - .5
     })
     
-    startTime(timerCount);
+    startTime();
     gameStarted = true;
     setNextQuestion();
 };
@@ -106,11 +109,11 @@ function setNextQuestion() {
     }
 }
 
-function startTime(timerCount) {
+function startTime() {
     timer = setInterval(function(){
-        timerCount--;
+        if (timerCount > 0) timerCount--;
         timerEl.textContent = timerCount;
-        if (timerCount === 0 || currentQuestionIndex == questions.length){
+        if (timerCount <= 0 || currentQuestionIndex == questions.length){
             clearInterval(timer)
             endGame()
         }
@@ -128,25 +131,38 @@ gameStarted = false;
 //allows user to input and save own score
 function setScore() {
     var inputField = document.createElement('input')
-    var submitBtn = document.createElement('button')
-    var userName = document.createElement('li')
+    var submitBtn = document.createElement('button') 
     
-    userName.setAttribute('id', 'userInput')
+
     inputField.setAttribute('id', 'nameInput')
     submitBtn.textContent = 'Submit my score.'
     submitBtn.setAttribute('class', 'scoreBtn')
     questionCard.appendChild(inputField)
     questionCard.appendChild(submitBtn)
     submitBtn.addEventListener('click', function () {
-        scoreList.appendChild(userName)
-        userName.textContent = [localStorage.getItem('Name') +' '+ localStorage.getItem('score')];
-        var currentHighScore = localStorage.getItem('score')
-        localStorage.setItem('Name' , inputField.value)
-        if (currentHighScore < totalScore) {
-            localStorage.setItem('score', totalScore)
-        } //not overwriting scores or storing multipul names
+        if(!inputField.value.trim()) return;
+        var user = {
+          name: inputField.value,
+          score: totalScore    
+        }
+        savedScores.push(user)
+
+        localStorage.setItem('scores', JSON.stringify(savedScores));
+        displayScores();
+        
     });
 };  
+
+function displayScores() {
+  scoreList.innerHTML = "";
+  for (var i = 0; i < savedScores.length; i++) {
+    var userName = document.createElement('li')
+    userName.setAttribute('id', 'userInput')
+    userName.textContent = savedScores[i].name + ' ' + savedScores[i].score;
+    scoreList.appendChild(userName);
+  }
+  highScores.classList.remove('hide');
+}
 //displays questions and answer buttons
 function showQuestion(currentQuestion) {
     titleEl.innerText = currentQuestion.question;
@@ -172,9 +188,12 @@ function isCorrect (btnIndex) {
   currentQuestionIndex++;
   setTimeout(() => setNextQuestion(), 300)
   if (!correctClicked) {
-    timerCount -= 12; //not working
+    console.log("before", timerCount)
+    if (timerCount >= 12) {
+      timerCount -= 12;
+    } else {timerCount = 1}
     totalScore -= 20;
-
+    console.log('after', timerCount)
   }
 };
 
